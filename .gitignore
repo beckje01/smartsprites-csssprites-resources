@@ -16,3 +16,4 @@ web-app
 */bin
 .idea
 */out
+grails-app/views
