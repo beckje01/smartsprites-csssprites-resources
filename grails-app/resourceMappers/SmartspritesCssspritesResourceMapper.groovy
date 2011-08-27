@@ -65,7 +65,7 @@ class SmartspritesCssspritesResourceMapper
       new SpriteBuilder(parameters, messageLog).buildSprites()
 
       def comparator = Message.MessageLevel.COMPARATOR
-      def minLevel = Message.MessageLevel.IE6NOTICE
+      def minLevel = Message.MessageLevel.INFO
       StringBuilder spriteMessages = new StringBuilder()
       for (message in messageSink.messages) {
         if (comparator.compare(message.level, minLevel) >= 0) {
