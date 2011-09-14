@@ -1,5 +1,4 @@
 .metadata
-web-app
 */target
 */plugin.xml
 */**/WEB-INF/tld
@@ -16,5 +15,4 @@ web-app
 */bin
 .idea
 */out
-grails-app/views
 /target/*

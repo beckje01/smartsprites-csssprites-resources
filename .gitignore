@@ -1,5 +1,5 @@
 .metadata
-web-app
+/web-app
 */target
 */plugin.xml
 */**/WEB-INF/tld
