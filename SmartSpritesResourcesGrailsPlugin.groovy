@@ -11,7 +11,7 @@ class SmartSpritesResourcesGrailsPlugin {
             "grails-app/views/error.gsp"
     ]
 
-    // TODO Fill in these fields
+
     def author = "Jeff Beck and Colin Harrington"
     def authorEmail = "colin+smartsprites-grails@colinharrington.net"
     def title = "Smart Sprites Resources"
