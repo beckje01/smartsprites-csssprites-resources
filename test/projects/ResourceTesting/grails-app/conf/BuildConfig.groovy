@@ -2,7 +2,8 @@ grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 
-grails.plugin.location.'smartsprites-csssprites-resources' = "..\\..\\..\\"
+
+grails.plugin.location.'smartsprites-csssprites-resources' = ".."+File.separator+".."+File.separator+".."+File.separator
 
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 grails.project.dependency.resolution = {
