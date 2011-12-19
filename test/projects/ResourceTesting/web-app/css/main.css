@@ -81,7 +81,7 @@ input:focus, select:focus, textarea:focus {
   padding: 4px 6px;
 }
 
-/** sprite: mysprite; sprite-image: url('./img/mysprite.png'); sprite-layout: vertical */
+/** sprite: mysprite; sprite-image: url('../img/mysprite.png'); sprite-layout: vertical */
 
 .menuButton a.home {
   background-position: center left;

@@ -4,20 +4,20 @@
  */
 
 import org.grails.plugin.resource.mapper.MapperPhase
-import org.grails.plugin.resource.ResourceService
 import org.grails.plugin.resource.ResourceMeta
 import org.carrot2.labs.smartsprites.SmartSpritesParameters
 import org.carrot2.labs.smartsprites.SpriteBuilder
 import org.carrot2.labs.smartsprites.message.MemoryMessageSink
 import org.carrot2.labs.smartsprites.message.Message
-import org.carrot2.labs.smartsprites.message.Message.MessageLevel
 import org.carrot2.labs.smartsprites.message.MessageLog
-import org.apache.ivy.plugins.matcher.ExactPatternMatcher
+import org.grails.plugin.resource.ResourceProcessor
+import org.grails.plugin.resource.util.ResourceMetaStore
 
 class SmartspritesCssspritesResourceMapper
 {
   def phase = MapperPhase.MUTATION
   def resourceService
+  ResourceProcessor grailsResourceProcessor
   def grailsApplication
   private static final String SPRITE_CSS_SUFFIX = '___sprite_temp___'
 
@@ -36,7 +36,7 @@ class SmartspritesCssspritesResourceMapper
       return false
     }
 
-    if (resource?.processedFile?.name.startsWith("bundle-"))
+    if (resource?.processedFile?.name?.startsWith("bundle-"))
     {
       //TODO change to logging
       println "Skipping a bundle as the spriting is done on a per css file."
@@ -45,7 +45,7 @@ class SmartspritesCssspritesResourceMapper
     {
 
       def realFile = grailsApplication.parentContext.getResource(resource.actualUrl).file.getPath()
-      def output = resource?.processedFile.parentFile?.getPath()
+      def output = resource?.processedFile?.parentFile?.getPath()
       def tempoutput = output + File.separator + "spritetemp"
 
       def parameters = new SmartSpritesParameters()
@@ -89,7 +89,6 @@ class SmartspritesCssspritesResourceMapper
       //TODO change to logging
       println "\nSmartSprite log:\n$spriteMessages"
 
-      //println tempoutput + File.separator + resource?.processedFile?.name
       def cssFile = new File(tempoutput + File.separator + resource?.processedFile?.name)
 
       //This is the orginial file just updated the processed file and copy it over.
@@ -114,14 +113,29 @@ class SmartspritesCssspritesResourceMapper
             println newUri.path + file.name
 
             // make the images created available as resources
-            def fileResource = resourceService.findSyntheticResourceForURI(newUri.path + file.name)
-            if (!fileResource)
-            {
-              fileResource = resourceService.newSyntheticResource(newUri.path + file.name, ResourceMeta)
-              fileResource.processedFile = file
+            grailsResourceProcessor.resourceInfo.getOrCreateAdHocResource(newUri.path + file.name) {->
+
+              def mod = grailsResourceProcessor.getOrCreateSyntheticOrImplicitModule(false)
+              def uri = newUri.path + file.name
+
+              def r = new ResourceMeta(sourceUrl: uri, workDir: grailsResourceProcessor.getWorkDir(), module: mod)
+
+              r.actualUrl = uri
+              r.processedFile = file
+
+              r = grailsResourceProcessor.prepareResource(r, true)
+              synchronized (mod.resources)
+              {
+                // Prevent concurrent requests resulting in multiple additions of same resource
+                // This relates specifically to the ad-hoc resources module
+                if (!mod.resources.find({ x -> x.sourceUrl == r.sourceUrl }))
+                {
+                  mod.resources << r
+                }
+              }
+
+              return r
             }
-
-
           }
 
     }
