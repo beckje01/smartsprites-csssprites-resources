@@ -29,7 +29,7 @@ class SmartspritesCssspritesResourceMapper
 
     if (config?.disable)
     {
-      log.debug "SmartSprites  disabled in Config.groovy"
+      log.debug "SmartSprites disabled in Config.groovy"
       return false
     }
 
