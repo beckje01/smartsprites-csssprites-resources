@@ -13,7 +13,7 @@ class SmartSpritesResourcesGrailsPlugin {
 
 
     def author = "Jeff Beck and Colin Harrington"
-    def authorEmail = "colin+smartsprites-grails@colinharrington.net"
+	def authorEmail = "grails.smart.sprite.resources@gmail.com"
     def title = "Smart Sprites Resources"
     def description = '''\\
 Creates Sprites using SmartSprites as a component of the Resources plugin
