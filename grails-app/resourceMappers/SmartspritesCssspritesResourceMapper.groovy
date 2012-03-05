@@ -96,10 +96,12 @@ class SmartspritesCssspritesResourceMapper
       sprites.each
           { String sprite ->
             File file = new File(sprite)
+            println sprite
 
             def filePath = file.path - file.name
             def expectedURL = findDirDiff(tempoutput, filePath)
-
+            println filePath
+            println expectedURL
             def expectedurlprefix = resource.originalUrl.minus(resource.processedFile.name)
 
 
@@ -112,7 +114,7 @@ class SmartspritesCssspritesResourceMapper
             // make the images created available as resources
             grailsResourceProcessor.resourceInfo.getOrCreateAdHocResource(newUri.path + file.name) {->
 
-              def mod = grailsResourceProcessor.getOrCreateSyntheticOrImplicitModule(false)
+              def mod = grailsResourceProcessor.getOrCreateSyntheticOrImplicitModule(true)
               def uri = newUri.path + file.name
 
               def r = new ResourceMeta(sourceUrl: uri, workDir: grailsResourceProcessor.getWorkDir(), module: mod)

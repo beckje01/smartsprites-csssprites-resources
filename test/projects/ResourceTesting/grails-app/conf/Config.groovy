@@ -62,7 +62,7 @@ environments {
 
 }
 
-grails.resources.debug = true
+grails.resources.debug = false
 
 grails.resources.modules = {
     core
