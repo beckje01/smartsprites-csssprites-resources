@@ -16,10 +16,10 @@ import org.grails.plugin.resource.util.ResourceMetaStore
 class SmartspritesCssspritesResourceMapper
 {
   def phase = MapperPhase.MUTATION
-  def resourceService
+
   ResourceProcessor grailsResourceProcessor
   def grailsApplication
-  private static final String SPRITE_CSS_SUFFIX = '___sprite_temp___'
+
 
   static defaultExcludes = ['**/*.min.css']
   static defaultIncludes = ['**/*.css']
@@ -35,8 +35,7 @@ class SmartspritesCssspritesResourceMapper
 
     if (resource?.processedFile?.name?.startsWith("bundle-"))
     {
-      //TODO change to logging
-      println "Skipping a bundle as the spriting is done on a per css file."
+      log.debug "Skipping a bundle as the spriting is done on a per css file."
     }
     else
     {
@@ -83,8 +82,7 @@ class SmartspritesCssspritesResourceMapper
         }
       }
 
-      //TODO change to logging
-      println "\nSmartSprite log:\n$spriteMessages"
+      log.debug "\nSmartSprite log:\n$spriteMessages"
 
       def cssFile = new File(tempoutput + File.separator + resource?.processedFile?.name)
 
@@ -96,11 +94,12 @@ class SmartspritesCssspritesResourceMapper
       sprites.each
           { String sprite ->
             File file = new File(sprite)
-            println sprite
 
             def filePath = file.path - file.name
-            def expectedURL = findDirDiff(tempoutput, filePath)
+            println tempoutput
             println filePath
+
+            def expectedURL = org.beck.util.DirectoryHelper.findDirDiff(tempoutput, filePath)
             println expectedURL
             def expectedurlprefix = resource.originalUrl.minus(resource.processedFile.name)
 
@@ -109,7 +108,6 @@ class SmartspritesCssspritesResourceMapper
             def expectedURI = new URI(expectedurlprefix) //Take the expected url prefix that resources plugin will look for
             def newUri = expectedURI.resolve(expectedURL) //Find what path we created out of the expected url resolved against it this deals with the fact we make the sprites and css files in a temp dir
 
-            println newUri.path + file.name
 
             // make the images created available as resources
             grailsResourceProcessor.resourceInfo.getOrCreateAdHocResource(newUri.path + file.name) {->
@@ -141,71 +139,6 @@ class SmartspritesCssspritesResourceMapper
   }
 
 
-  private String findDirDiff(String left, String right)
-  {
-    //TODO consider using something like the relativize in URI
 
-    def sep = File.separator
-    if (sep == "\\")     //I hate all these \ but can't use slashy strings due to not being able to have \ as the last char
-    {
-      sep = "\\\\"
-    }
-
-    def leftParts = left.split(sep)
-    def rightParts = right.split(sep)
-
-
-    int i = 0
-
-    while (true) //TODO this could be redone to be tighter only really need the position of the difference and then just run the loops you see in the difference section
-    {
-
-      if (i >= leftParts.length) //check if out of destinationParts
-      {//We are out of destination parts and they have all matched up to this point so we can just use the rest of the sprite
-
-        def out = ""
-
-        for (def x = i; x < rightParts.length; x++)
-        {
-          out += rightParts[x] + '/'
-        }
-        return out
-      }
-      else if (i >= rightParts.length)
-      {//We are out of spriteparts so we need to start adding the ..
-        //return "adding .."
-        def out = ""
-        for (def x = i; x < leftParts.length; x++)
-        {
-          out += "../"
-        }
-        return out
-      }
-      else
-      { //We have some of each so check for matching
-
-
-        if (leftParts[i] == rightParts[i])
-        {//Its a match move on
-          i++
-        }
-        else
-        {//No more match figure out the needed .. based on whats left of the sprite parts and add whats left to the
-          def out = ""
-          for (def x = i; x < leftParts.length; x++)
-          {
-            out += "../"
-          }
-          for (def x = i; x < rightParts.length; x++)
-          {
-            out += rightParts[x] + '/'
-          }
-          return out
-        }
-      }
-    }
-
-
-  }
 }
 
