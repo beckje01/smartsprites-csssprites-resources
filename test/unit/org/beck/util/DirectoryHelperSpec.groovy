@@ -23,8 +23,8 @@ class DirectoryHelperSpec extends UnitSpec
 
     where:
     left     |right   |expected
-    ".."+File.separator | File.separator  | ".."+File.separator
-    File.separator+"grails-resources"+File.separator+"css"+File.separator+"spritetemp" | File.separator+"grails-resources"+File.separator+"css"+File.separator+"img"+File.separator  | ".."+File.separator+"img"+File.separator
+    ".."+File.separator | File.separator  | "../"
+    File.separator+"grails-resources"+File.separator+"css"+File.separator+"spritetemp" | File.separator+"grails-resources"+File.separator+"css"+File.separator+"img"+File.separator  | "../img/"
   }
 
 }

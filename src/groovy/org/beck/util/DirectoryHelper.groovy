@@ -37,7 +37,7 @@ class DirectoryHelper
 
         for (def x = i; x < rightParts.length; x++)
         {
-          out += rightParts[x] + File.separator
+          out += rightParts[x] + '/'
         }
         return out
       }
@@ -47,7 +47,7 @@ class DirectoryHelper
         def out = ""
         for (def x = i; x < leftParts.length; x++)
         {
-          out += ".."+File.separator
+          out += "../"
         }
         return out
       }
@@ -64,11 +64,11 @@ class DirectoryHelper
           def out = ""
           for (def x = i; x < leftParts.length; x++)
           {
-            out += ".."+File.separator
+            out += "../"
           }
           for (def x = i; x < rightParts.length; x++)
           {
-            out += rightParts[x] + File.separator
+            out += rightParts[x] + '/'
           }
           return out
         }
