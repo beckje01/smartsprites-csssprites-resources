@@ -29,12 +29,12 @@ grails.project.dependency.resolution = {
 
     // runtime 'mysql:mysql-connector-java:5.1.13'
     runtime 'com.carrotsearch:smartsprites:0.2.8'
-    test "org.spockframework:spock-grails-support:0.6-groovy-1.7"
+//    test "org.spockframework:spock-grails-support:0.6-groovy-1.7"
   }
 
   plugins {
-    test(":spock:0.6") {
-      exclude "spock-grails-support"
-    }
+//    test(":spock:0.6") {
+//      exclude "spock-grails-support"
+//    }
   }
 }

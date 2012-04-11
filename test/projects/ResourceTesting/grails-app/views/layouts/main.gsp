@@ -5,7 +5,7 @@
         
         <link rel="shortcut icon" href="${resource(dir:'images',file:'favicon.ico')}" type="image/x-icon" />
         <g:layoutHead />
-        <g:javascript library="application" />
+
         <r:use modules="core"/>
         <r:layoutResources/>
     </head>
