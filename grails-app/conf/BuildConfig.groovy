@@ -11,6 +11,7 @@ grails.project.dependency.resolution = {
   log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
   repositories {
     grailsPlugins()
+    grailsRepo "http://grails.org/plugins"
     grailsHome()
     grailsCentral()
 
