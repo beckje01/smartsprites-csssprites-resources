@@ -14,27 +14,17 @@ grails.project.dependency.resolution = {
     grailsRepo "http://grails.org/plugins"
     grailsHome()
     grailsCentral()
-
-    // uncomment the below to enable remote dependency resolution
-    // from public Maven repositories
-    //mavenLocal()
     mavenCentral()
-    //mavenRepo "http://snapshots.repository.codehaus.org"
-    //mavenRepo "http://repository.codehaus.org"
-    //mavenRepo "http://download.java.net/maven/2/"
-    //mavenRepo "http://repository.jboss.com/maven2/"
+
   }
   dependencies {
-    // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
-
-    // runtime 'mysql:mysql-connector-java:5.1.13'
     runtime 'com.carrotsearch:smartsprites:0.2.8'
-//    test "org.spockframework:spock-grails-support:0.6-groovy-1.7"
+
   }
 
   plugins {
-//    test(":spock:0.6") {
-//      exclude "spock-grails-support"
-//    }
+    compile(":spock:0.6") {
+      export = false
+    }
   }
 }
