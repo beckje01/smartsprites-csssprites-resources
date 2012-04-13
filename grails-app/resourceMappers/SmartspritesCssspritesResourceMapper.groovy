@@ -82,59 +82,61 @@ class SmartspritesCssspritesResourceMapper
         }
       }
 
+
       log.debug "\nSmartSprite log:\n$spriteMessages"
+      if(sprites.size()>0)
+      {
+        def cssFile = new File(tempoutput + File.separator + resource?.processedFile?.name)
 
-      def cssFile = new File(tempoutput + File.separator + resource?.processedFile?.name)
+        //This is the orginial file just updated the processed file and copy it over.
+        resource.processedFile = cssFile
+        resource.updateActualUrlFromProcessedFile()
 
-      //This is the orginial file just updated the processed file and copy it over.
-      resource.processedFile = cssFile
-      resource.updateActualUrlFromProcessedFile()
+        //For each of the files update the resources as needed
+        sprites.each
+            { String sprite ->
+              File file = new File(sprite)
 
-      //For each of the files update the resources as needed
-      sprites.each
-          { String sprite ->
-            File file = new File(sprite)
+              def filePath = file.path - file.name
+              println tempoutput
+              println filePath
 
-            def filePath = file.path - file.name
-            println tempoutput
-            println filePath
-
-            def expectedURL = org.beck.util.DirectoryHelper.findDirDiff(tempoutput, filePath)
-            println expectedURL
-            def expectedurlprefix = resource.originalUrl.minus(resource.processedFile.name)
-
-
-
-            def expectedURI = new URI(expectedurlprefix) //Take the expected url prefix that resources plugin will look for
-            def newUri = expectedURI.resolve(expectedURL) //Find what path we created out of the expected url resolved against it this deals with the fact we make the sprites and css files in a temp dir
+              def expectedURL = org.beck.util.DirectoryHelper.findDirDiff(tempoutput, filePath)
+              println expectedURL
+              def expectedurlprefix = resource.originalUrl.minus(resource.processedFile.name)
 
 
-            // make the images created available as resources
-            grailsResourceProcessor.resourceInfo.getOrCreateAdHocResource(newUri.path + file.name) {->
 
-              def mod = grailsResourceProcessor.getOrCreateSyntheticOrImplicitModule(true)
-              def uri = newUri.path + file.name
+              def expectedURI = new URI(expectedurlprefix) //Take the expected url prefix that resources plugin will look for
+              def newUri = expectedURI.resolve(expectedURL) //Find what path we created out of the expected url resolved against it this deals with the fact we make the sprites and css files in a temp dir
 
-              def r = new ResourceMeta(sourceUrl: uri, workDir: grailsResourceProcessor.getWorkDir(), module: mod)
 
-              r.actualUrl = uri
-              r.processedFile = file
+              // make the images created available as resources
+              grailsResourceProcessor.resourceInfo.getOrCreateAdHocResource(newUri.path + file.name) {->
 
-              r = grailsResourceProcessor.prepareResource(r, true)
-              synchronized (mod.resources)
-              {
-                // Prevent concurrent requests resulting in multiple additions of same resource
-                // This relates specifically to the ad-hoc resources module
-                if (!mod.resources.find({ x -> x.sourceUrl == r.sourceUrl }))
+                def mod = grailsResourceProcessor.getOrCreateSyntheticOrImplicitModule(true)
+                def uri = newUri.path + file.name
+
+                def r = new ResourceMeta(sourceUrl: uri, workDir: grailsResourceProcessor.getWorkDir(), module: mod)
+
+                r.actualUrl = uri
+                r.processedFile = file
+
+                r = grailsResourceProcessor.prepareResource(r, true)
+                synchronized (mod.resources)
                 {
-                  mod.resources << r
+                  // Prevent concurrent requests resulting in multiple additions of same resource
+                  // This relates specifically to the ad-hoc resources module
+                  if (!mod.resources.find({ x -> x.sourceUrl == r.sourceUrl }))
+                  {
+                    mod.resources << r
+                  }
                 }
+
+                return r
               }
-
-              return r
             }
-          }
-
+      }
     }
   }
 
