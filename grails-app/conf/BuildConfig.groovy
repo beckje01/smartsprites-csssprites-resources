@@ -26,5 +26,17 @@ grails.project.dependency.resolution = {
     compile(":spock:0.6") {
       export = false
     }
+    runtime(":resources:1.1.6")
+    {
+      export = false
+    }
+    compile(":codenarc:0.17")
+    {
+      export = false
+    }
+    build(":release:2.0.0.BUILD-SNAPSHOT")
+    {
+      export = false
+    }
   }
 }
