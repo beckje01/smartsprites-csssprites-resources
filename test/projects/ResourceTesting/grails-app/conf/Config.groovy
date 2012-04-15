@@ -72,6 +72,24 @@ grails.resources.modules = {
         resource url:'/css/main.css'
     }
 
+    core_css 
+    {
+      resource '/css/tca-om-core.css'
+      resource '/css/competency.css'
+      resource '/css/dojo-modifications.css'
+      resource '/css/reports.css'
+    }
+  
+  core_css_ie {
+    dependsOn 'core_css'
+    resource url:'/css/tca-om-core-ie.css', wrapper:{s-> "<!--[if lt IE 8]>$s<![endif]-->"}
+  }
+  
+  core_css_ie_6{
+    dependsOn 'core_css, core_css_ie'
+    resource url:'/css/tca-om-core-ie6.css', wrapper:{s-> "<!--[if lt IE 7]>$s<![endif]-->"}
+  }
+
 
 }
 

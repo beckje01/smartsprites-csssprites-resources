@@ -82,11 +82,13 @@
             </div>
         </div>
         <div id="pageBody">
-            <h1>Welcome to Grails</h1>
-            <p>Congratulations, you have successfully started your first Grails application! At the moment
-            this is the default page, feel free to modify it to either redirect to a controller or display whatever
-            content you may choose. Below is a list of controllers that are currently deployed in this application,
-            click on each to execute its default action:</p>
+            <h1>Welcome to Smart Sprite Testing</h1>
+            <h2>Tests</h2>
+            <ul>
+                <li><g:link action="list" controller="test">Single Sprite</g:link> -  The control icons should all be one sprite</li>
+                <li><g:link action="testEmpty" controller="test">No Sprites / Empty CSS</g:link> -  The text should be blue</li>
+
+            </ul>
 
             <div id="controllerList" class="dialog">
                 <h2>Available Controllers:</h2>

@@ -97,4 +97,9 @@ class TestController {
             redirect(action: "list")
         }
     }
+
+    def testEmpty =
+    {
+        
+    }
 }
