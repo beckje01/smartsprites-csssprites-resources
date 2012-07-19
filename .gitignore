@@ -18,3 +18,7 @@
 */out
 grails-app/views
 /target/*
+*.sublime-project
+*.sublime-workspace
+CodeNarcReport.html
+out/*
