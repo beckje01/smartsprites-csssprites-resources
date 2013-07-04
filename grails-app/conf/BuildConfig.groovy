@@ -11,7 +11,6 @@ grails.project.dependency.resolution = {
   log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
   repositories {
     grailsPlugins()
-    grailsRepo "http://grails.org/plugins"
     grailsHome()
     grailsCentral()
     mavenCentral()
@@ -20,22 +19,23 @@ grails.project.dependency.resolution = {
   dependencies {
     runtime 'com.carrotsearch:smartsprites:0.2.8'
 
+    test "org.spockframework:spock-grails-support:0.7-groovy-2.0"
   }
 
   plugins {
-    compile(":spock:0.6") {
-      export = false
+    test(":spock:0.7") {
+      exclude "spock-grails-support"
     }
-    runtime(":resources:1.1.6")
+    runtime(":resources:1.2")
     {
       export = false
     }
-    compile(":codenarc:0.17")
+    compile(":codenarc:0.18.1")
     {
       export = false
     }
-    build(":release:2.0.3")
-    {
+    
+    build ':release:2.2.1', ':rest-client-builder:1.0.3', {
       export = false
     }
   }
