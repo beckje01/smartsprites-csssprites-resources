@@ -22,3 +22,5 @@ grails-app/views
 *.sublime-workspace
 CodeNarcReport.html
 out/*
+apple-touch-*
+grails-app/i18n/*
