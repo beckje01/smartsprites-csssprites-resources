@@ -17,7 +17,7 @@ grails.project.dependency.resolution = {
 
   }
   dependencies {
-    runtime 'com.carrotsearch:smartsprites:0.2.8'
+    runtime 'com.carrotsearch:smartsprites:0.2.10'
 
     test "org.spockframework:spock-grails-support:0.7-groovy-2.0"
   }
